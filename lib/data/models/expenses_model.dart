@@ -5,8 +5,7 @@ class Expenses {
   int? costs;
   List<Category> categories = [];
 
-  Expenses({required this.id, required this.costs, List<Category>? categories})
-      : categories = categories ?? [];
+  Expenses({required this.id, required this.costs, List<Category>? categories}) : categories = categories ?? [];
 
   Map<String, dynamic> toMap() {
     return {'id': id, 'costs': costs, 'categories': categories};
@@ -15,9 +14,7 @@ class Expenses {
   Expenses.fromJson(Map<String, dynamic> json) {
     id = json['id'] as int?;
     costs = json['costs'] as int?;
-    categories = (json['categories'] as List<dynamic>)
-        .map((cate) => Category.fromJson(cate))
-        .toList();
+    categories = (json['categories'] as List<dynamic>).map((cate) => Category.fromJson(cate)).toList();
   }
 }
 
@@ -73,8 +70,6 @@ class Category {
     name = json['name'];
     url = json['url'];
     costs = json['costs'];
-    expenses = (json['expenses'] as List<dynamic>)
-        .map((expense) => Expense.fromJson(expense))
-        .toList();
+    expenses = (json['expenses'] as List<dynamic>).map((expense) => Expense.fromJson(expense)).toList();
   }
 }

@@ -3,14 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:mysavingapp/common/theme/bloc/theme_bloc.dart';
 import 'package:mysavingapp/common/utils/mysaving_colors.dart';
 import 'package:mysavingapp/common/theme/theme_constants.dart';
+import 'package:unicons/unicons.dart';
 
 class MySavingBottomNav extends StatefulWidget {
-  const MySavingBottomNav(
-      {super.key, required this.selectedIndex, required this.onTap});
+  const MySavingBottomNav({super.key, required this.selectedIndex, required this.onTap});
   final int selectedIndex;
   final Function(int) onTap;
   @override
@@ -20,17 +19,14 @@ class MySavingBottomNav extends StatefulWidget {
 class _MySavingBottomNavState extends State<MySavingBottomNav> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DarkModeBloc(),
-      child: Container(
+    return BlocBuilder<DarkModeBloc, DarkModeState>(builder: (context, state) {
+      return Container(
         decoration: BoxDecoration(
           color: MySavingColors.defaultCategories,
           boxShadow: [
             BoxShadow(
               blurRadius: 20,
-              color: DarkModeSwitch.isDarkMode
-                  ? Colors.white.withOpacity(.1)
-                  : Colors.black.withOpacity(.1),
+              color: DarkModeSwitch.isDarkMode ? Colors.white.withOpacity(.1) : Colors.black.withOpacity(.1),
             )
           ],
         ),
@@ -45,22 +41,20 @@ class _MySavingBottomNavState extends State<MySavingBottomNav> {
               iconSize: 24,
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               duration: Duration(milliseconds: 400),
-              tabBackgroundColor: DarkModeSwitch.isDarkMode
-                  ? Colors.black12
-                  : Colors.grey[100]!,
+              tabBackgroundColor: MySavingColors.defaultBackgroundPage,
               color: MySavingColors.defaultDarkText,
               tabs: [
                 GButton(
-                  icon: LineIcons.home,
-                  text: 'Home',
+                  icon: UniconsLine.estate,
+                  text: 'Główna',
                 ),
                 GButton(
-                  icon: LineIcons.moneyBill,
-                  text: 'Expenses',
+                  icon: UniconsLine.money_stack,
+                  text: 'Wydatki',
                 ),
                 GButton(
-                  icon: LineIcons.user,
-                  text: 'Profile',
+                  icon: UniconsLine.setting,
+                  text: 'Ustawienia',
                 ),
               ],
               selectedIndex: widget.selectedIndex,
@@ -70,7 +64,7 @@ class _MySavingBottomNavState extends State<MySavingBottomNav> {
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

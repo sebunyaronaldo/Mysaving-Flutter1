@@ -14,6 +14,7 @@ class DarkModeBloc extends Bloc<DarkModeEvent, DarkModeState> {
   void _onToggleDarkMode(
       ToggleDarkModeEvent event, Emitter<DarkModeState> emit) {
     DarkModeSwitch.toggleDarkMode();
+
     emit(DarkModeChanged(DarkModeSwitch.isDarkMode));
   }
 }

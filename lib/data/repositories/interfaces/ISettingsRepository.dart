@@ -5,4 +5,5 @@ abstract class ISettingsRepository {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   Future<List<GeneralSettings>> getGeneral();
   Future<List<NotificationsSettings>> getNotification();
+  Future<void> updateLanguage(String language);
 }

@@ -7,4 +7,6 @@ abstract class IExpensesRepository {
   Future<List<Expenses>> getExpenses();
   Future<List<Category>> getCategory();
   Future<void> addExpense(String name, int cost, int categoryId);
+  Future<void> calculateAllExpenses();
+  Future<void> updateCategoryName(String newName);
 }

@@ -20,7 +20,6 @@ class DashboardSummaryRow extends StatelessWidget {
   Widget build(BuildContext context) {
     var msstyles = MySavingStyles(context);
     return SizedBox(
-      width: 200,
       child: Column(
         children: [
           Row(

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:mysavingapp/common/utils/mysaving_colors.dart';
+import 'package:mysavingapp/pages/analitycs/analitycs.dart';
+import 'package:mysavingapp/pages/statistic/statistic.dart';
+import 'package:unicons/unicons.dart';
 
 import '../../../common/styles/mysaving_styles.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardButtons extends StatelessWidget {
-  const DashboardButtons({super.key});
+  const DashboardButtons({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +23,15 @@ class DashboardButtons extends StatelessWidget {
           decoration: msstyles.mysavingDashboardButtonsContainerStyle,
           child: ElevatedButton.icon(
               style: msstyles.mysavingDashboardButtonsButtonStyle,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push<void>(StatisticPage.route());
+              },
               icon: Icon(
-                Icons.save,
+                UniconsLine.analytics,
                 color: MySavingColors.defaultExpensesText,
               ),
               label: Text(
-                'Analitycs',
+                AppLocalizations.of(context)!.dashboardButtonsStats,
                 style: TextStyle(color: MySavingColors.defaultDarkText),
               )),
         ),
@@ -36,13 +42,15 @@ class DashboardButtons extends StatelessWidget {
           decoration: msstyles.mysavingDashboardButtonsContainerStyle,
           child: ElevatedButton.icon(
               style: msstyles.mysavingDashboardButtonsButtonStyle,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push<void>(AnalitycsPage.route());
+              },
               icon: Icon(
-                Icons.save,
+                UniconsLine.chart_pie,
                 color: MySavingColors.defaultExpensesText,
               ),
               label: Text(
-                'Last Month',
+                AppLocalizations.of(context)!.dashboardButtonsAnal,
                 style: TextStyle(color: MySavingColors.defaultDarkText),
               )),
         ),

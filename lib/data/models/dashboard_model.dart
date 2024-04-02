@@ -1,25 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class DashboardSummary {
   int? id;
   int? saldo;
   int? saving;
   int? expenses;
+  int? addedSavings;
 
-  DashboardSummary({
-    required this.id,
-    required this.saldo,
-    required this.saving,
-    required this.expenses,
-  });
+  DashboardSummary({this.id, this.saldo, this.saving, this.expenses, this.addedSavings});
 
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'saldo': saldo,
-      'saving': saving,
-      'expenses': expenses,
-    };
+    return {'id': id, 'saldo': saldo, 'saving': saving, 'expenses': expenses, 'addedSavings': addedSavings};
   }
 
   DashboardSummary.fromJson(List<dynamic> json) {
@@ -27,19 +16,18 @@ class DashboardSummary {
     saldo = json[0]['saldo'] as int;
     expenses = json[0]['expenses'] as int;
     saving = json[0]['saving'] as int;
+    addedSavings = json[0]['addedSavings'] as int;
   }
 }
 
 class DashboardAnalytics {
-  final CollectionReference expenseCollection =
-      FirebaseFirestore.instance.collection('expenses');
   List<DashboardAnalitycsDay> summary;
+  int? maxExpensesPerDay;
 
-  DashboardAnalytics({required this.summary}) {}
+  DashboardAnalytics({required this.summary, required this.maxExpensesPerDay}) {}
 
   int calculateTotalExpenses(DateTime day) {
     int total = 0;
-
     return total;
   }
 
@@ -52,19 +40,16 @@ class DashboardAnalytics {
   }
 
   bool isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year &&
-        date1.month == date2.month &&
-        date1.day == date2.day;
+    return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'summary': summary.map((day) => day.toMap()).toList(),
-    };
+    return {'summary': summary.map((day) => day.toMap()).toList(), 'maxExpensesPerDay': maxExpensesPerDay};
   }
 }
 
 class DashboardAnalitycsDay {
+  String? name;
   int id;
   int saldo;
   int saving;
@@ -72,6 +57,7 @@ class DashboardAnalitycsDay {
   String date;
 
   DashboardAnalitycsDay({
+    required this.name,
     required this.id,
     required this.saldo,
     required this.saving,
@@ -82,6 +68,7 @@ class DashboardAnalitycsDay {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'name': name,
       'saldo': saldo,
       'saving': saving,
       'expenses': expenses,
@@ -100,18 +87,18 @@ class DashboardModel {
     required this.dashboardAnalytics,
     required this.dashboardSummary,
   });
+
   DashboardModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     dashboardAnalytics = json['dashboardAnalytics'];
     dashboardSummary = json['dashboardSummary'];
   }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'dashboardAnalytics':
-          dashboardAnalytics!.map((analytics) => analytics.toMap()).toList(),
-      'dashboardSummary':
-          dashboardSummary!.map((summary) => summary.toMap()).toList(),
+      'dashboardAnalytics': dashboardAnalytics!.map((analytics) => analytics.toMap()).toList(),
+      'dashboardSummary': dashboardSummary!.map((summary) => summary.toMap()).toList(),
     };
   }
 }

@@ -25,10 +25,34 @@ class ExpenseCubit extends Cubit<ExpenseState> {
 
   Future<void> addExpense(String name, int cost, int categoryId) async {
     emit(ExpenseLoading());
-
     try {
       await expensesRepository.addExpense(name, cost, categoryId);
-      emit(ExpenseAddSuccess());
+      await getSummary();
+    } catch (error, stacktrace) {
+      print(error.toString());
+      print(stacktrace.toString());
+      emit(ExpenseError(error: 'Something went wrong'));
+    }
+  }
+
+  Future<void> calculateExpenses() async {
+    emit(ExpenseLoading());
+    try {
+      await expensesRepository.calculateAllExpenses();
+    } catch (error, stacktrace) {
+      print(error.toString());
+      print(stacktrace.toString());
+      emit(ExpenseError(error: 'Something went wrong'));
+    }
+  }
+
+  Future<void> updateCategoryName(String newName) async {
+    emit(ExpenseLoading());
+    try {
+      await expensesRepository.updateCategoryName(newName);
+
+      // Call getSummary to refresh the data
+      await getSummary();
     } catch (error, stacktrace) {
       print(error.toString());
       print(stacktrace.toString());

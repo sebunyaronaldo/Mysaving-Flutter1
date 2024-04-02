@@ -1,5 +1,6 @@
 part of 'app_bloc.dart';
 
+// Tworzenie statusu stanu, w tym przypadku dla uwierzytelnienia
 enum AppStatus { authenticated, unauthenticated }
 
 class AppState extends Equatable {
@@ -7,8 +8,10 @@ class AppState extends Equatable {
   final User user;
 
   const AppState._({required this.status, this.user = User.empty});
+
   const AppState.authenticated(User user)
       : this._(status: AppStatus.authenticated, user: user);
+
   const AppState.unauthenticated() : this._(status: AppStatus.unauthenticated);
 
   @override

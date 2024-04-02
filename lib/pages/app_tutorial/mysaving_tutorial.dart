@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mysavingapp/common/styles/mysaving_styles.dart';
 import 'package:mysavingapp/common/utils/mysaving_colors.dart';
-import 'package:mysavingapp/pages/main_page/main_page.dart';
+import 'package:mysavingapp/pages/app_tutorial/saldo_screen.dart';
 
 class MySavingTutorial extends StatefulWidget {
   const MySavingTutorial({super.key});
@@ -17,13 +18,9 @@ class MySavingTutorial extends StatefulWidget {
 class _MySavingTutorialState extends State<MySavingTutorial> {
   final introKey = GlobalKey<IntroductionScreenState>();
   void _onIntroEnd(context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const MainPage()),
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => SaldoScreen()),
     );
-  }
-
-  Widget _buildImage(String assetName, [double width = 350]) {
-    return Image.asset('assets/images/tutorials/$assetName', width: width);
   }
 
   static const bodyStyle = TextStyle(fontSize: 17.0, color: Color(0xff4D5284));
@@ -31,15 +28,10 @@ class _MySavingTutorialState extends State<MySavingTutorial> {
     bodyFlex: 4,
     imageFlex: 6,
 
-    titlePadding: EdgeInsets.fromLTRB(
-        16.0, 30, 16.0, 20), // Zmniejszono górną i dolną wartość
-    titleTextStyle: TextStyle(
-        fontSize: 28.0,
-        fontWeight: FontWeight.w700,
-        color: MySavingColors.defaultDarkText),
+    titlePadding: EdgeInsets.fromLTRB(16.0, 30, 16.0, 20), // Zmniejszono górną i dolną wartość
+    titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700, color: MySavingColors.defaultDarkText),
     bodyTextStyle: bodyStyle,
-    bodyPadding: EdgeInsets.fromLTRB(
-        16.0, 0, 16.0, 0), // Zmniejszono górną i dolną wartość
+    bodyPadding: EdgeInsets.fromLTRB(16.0, 0, 16.0, 0), // Zmniejszono górną i dolną wartość
     pageColor: Colors.white,
     imagePadding: EdgeInsets.zero,
   );
@@ -57,7 +49,7 @@ class _MySavingTutorialState extends State<MySavingTutorial> {
             child: ElevatedButton(
               style: msstyles.mysavingButtonStyles,
               child: const Text(
-                'Let\'s go right away!',
+                'Pomiń',
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
               ),
               onPressed: () => _onIntroEnd(context),
@@ -69,23 +61,35 @@ class _MySavingTutorialState extends State<MySavingTutorial> {
         allowImplicitScrolling: true,
         pages: [
           PageViewModel(
-            title: "Zarabiaj duże kwoty nie wychodząc z domu",
+            title: "Monitoruj swoje finanse",
             body:
-                "Możesz łatwo zarabiać duże kwoty co pozwoli ci na spełnienie marzeń",
-            image: _buildImage('tuto1.png'),
+                "Bez trudu zapisuj swoje wydatki i nadawaj im kategorie, aby lepiej zrozumieć swoje nawyki finansowe.",
+            image: SizedBox(
+              width: 300,
+              height: 300,
+              child: Lottie.asset('assets/animations/expenses.json'),
+            ),
             decoration: pageDecoration,
           ),
           PageViewModel(
-              title: "Szybka wypłata i bezpieczeństwo",
+              title: "Utrzymuj kontrolę nad finansami",
               body:
-                  "Pieniądzę odrazu trafiają na twoje konto i nie musisz sie martwić",
-              image: _buildImage('tuto2.png'),
+                  "Dzięki przejrzystemu interfejsowi śledź, jak wydajesz pieniądze oraz jak rosną Twoje oszczędności.",
+              image: SizedBox(
+                width: 300,
+                height: 300,
+                child: Lottie.asset('assets/animations/analitycs.json'),
+              ),
               decoration: pageDecoration),
           PageViewModel(
-              title: "Ciesz się z bycia własnym szefem",
+              title: "Osiągaj swoje cele",
               body:
-                  "Możesz cieszyć sie z niezależności finansowej pracując kiedy chcesz i ile chcesz",
-              image: _buildImage('tuto3.png'),
+                  "Dzięki gromadzeniu oszczędności, masz szansę spełnić swoje marzenia i zrealizować to, o czym zawsze marzyłeś.",
+              image: SizedBox(
+                width: 300,
+                height: 300,
+                child: Lottie.asset('assets/animations/savings.json'),
+              ),
               decoration: pageDecoration),
         ],
         onDone: () => _onIntroEnd(context),
@@ -101,16 +105,12 @@ class _MySavingTutorialState extends State<MySavingTutorial> {
           Icons.arrow_back,
           color: Color(0xff806FF1),
         ),
-        skip: const Text('Skip',
-            style: TextStyle(
-                fontWeight: FontWeight.w600, color: Color(0xFF444FFF))),
+        skip: const Text('Skip', style: TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF444FFF))),
         next: const Icon(
           Icons.arrow_forward,
           color: Color(0xff806FF1),
         ),
-        done: Text('Go Earn',
-            style: TextStyle(
-                fontWeight: FontWeight.w600, color: Color(0xFF444FFF))),
+        done: Text('Go Earn', style: TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF444FFF))),
         curve: Curves.fastLinearToSlowEaseIn,
         controlsMargin: const EdgeInsets.only(bottom: 56),
         dotsDecorator: DotsDecorator(

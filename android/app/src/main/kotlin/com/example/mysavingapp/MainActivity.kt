@@ -1,4 +1,4 @@
-package com.example.mysavingapp
+package com.itlight.mysavingapp
 
 import io.flutter.embedding.android.FlutterActivity
 

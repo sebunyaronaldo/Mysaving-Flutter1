@@ -2,20 +2,18 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:mysavingapp/common/utils/mysaving_images.dart';
 import 'package:mysavingapp/data/repositories/apple_repository.dart';
-import 'package:mysavingapp/data/repositories/google_repository.dart';
-import 'package:mysavingapp/pages/auth/others/apple/apple_login.dart';
-import 'package:mysavingapp/pages/auth/others/google/google_login.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import '../../../common/helpers/mysaving_snackbar.dart';
+import 'package:unicons/unicons.dart';
 import '../../../common/styles/mysaving_styles.dart';
 import '../../../data/repositories/auth_repository.dart';
 import '../others/apple/cubit/apple_cubit.dart';
-import '../others/google/cubit/google_cubit.dart';
 import '../register/register.dart';
 import 'cubit/login_cubit.dart';
+import 'helpers/forgot_password_page.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -30,20 +28,21 @@ class LoginScreen extends StatelessWidget {
       body: SafeArea(
           child: Padding(
         padding: EdgeInsets.all(40),
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider<LoginCubit>(
-              create: (_) => LoginCubit(AuthRepository()),
-            ),
-            BlocProvider<AppleCubit>(
-              create: (context) =>
-                  AppleCubit(AppleRepository(FirebaseAuth.instance)),
-            ),
-            BlocProvider<GoogleCubit>(
-              create: (context) => GoogleCubit(GoogleRepository()),
-            ),
-          ],
-          child: LoginForm(),
+        child: SingleChildScrollView(
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider<LoginCubit>(
+                create: (_) => LoginCubit(AuthRepository()),
+              ),
+              BlocProvider<AppleCubit>(
+                create: (context) => AppleCubit(AppleRepository(FirebaseAuth.instance)),
+              ),
+              // BlocProvider<GoogleCubit>(
+              //   create: (context) => GoogleCubit(GoogleRepository()),
+              // ),
+            ],
+            child: LoginForm(),
+          ),
         ),
       )),
     );
@@ -71,68 +70,51 @@ class LoginForm extends StatelessWidget {
             state.password.length > 5 &&
             regex.hasMatch(state.email) &&
             state.email.isNotEmpty &&
-            state.password.isNotEmpty) {
-          showTopSnackBar(
-            Overlay.of(context),
-            MysavingSnackBar.success(
-              message: "Pomyślnie zalogowano. Witaj ${state.email}",
-            ),
-          );
-        }
+            state.password.isNotEmpty) {}
         if (state.status == LoginStatus.error) {
           showTopSnackBar(
             Overlay.of(context),
-            const MysavingSnackBar.error(
+            const CustomSnackBar.error(
               message: "Oops... Something went wrong",
             ),
           );
         }
-        if (state.status == LoginStatus.success &&
-            state.password.length < 5 &&
-            state.password.isNotEmpty) {
+        if (state.status == LoginStatus.success && state.password.length < 5 && state.password.isNotEmpty) {
           showTopSnackBar(
             Overlay.of(context),
-            const MysavingSnackBar.error(
+            const CustomSnackBar.error(
               message: "Wpisałeś za krótkie hasło",
             ),
           );
         }
-        if (state.status == LoginStatus.success &&
-            !regex.hasMatch(state.email) &&
-            state.email.isNotEmpty) {
+        if (state.status == LoginStatus.success && !regex.hasMatch(state.email) && state.email.isNotEmpty) {
           showTopSnackBar(
             Overlay.of(context),
-            const MysavingSnackBar.error(
+            const CustomSnackBar.error(
               message: "Wpisałeś zły email",
             ),
           );
         }
-        if (state.status == LoginStatus.success &&
-            state.email.isEmpty &&
-            state.password.isNotEmpty) {
+        if (state.status == LoginStatus.success && state.email.isEmpty && state.password.isNotEmpty) {
           showTopSnackBar(
             Overlay.of(context),
-            const MysavingSnackBar.error(
+            const CustomSnackBar.error(
               message: "Nie wpisałeś email",
             ),
           );
         }
-        if (state.status == LoginStatus.success &&
-            state.password.isEmpty &&
-            state.email.isNotEmpty) {
+        if (state.status == LoginStatus.success && state.password.isEmpty && state.email.isNotEmpty) {
           showTopSnackBar(
             Overlay.of(context),
-            const MysavingSnackBar.error(
+            const CustomSnackBar.error(
               message: "Nie wpisałeś password",
             ),
           );
         }
-        if (state.status == LoginStatus.success &&
-            state.email.isEmpty &&
-            state.password.isEmpty) {
+        if (state.status == LoginStatus.success && state.email.isEmpty && state.password.isEmpty) {
           showTopSnackBar(
             Overlay.of(context),
-            const MysavingSnackBar.error(
+            const CustomSnackBar.error(
               message: "Wypełnij formularz",
             ),
           );
@@ -140,7 +122,7 @@ class LoginForm extends StatelessWidget {
       },
       child: Column(
         children: [
-          Gap(70),
+          Gap(90),
           SvgPicture.asset(
             images.mysavingLogo,
           ),
@@ -155,7 +137,20 @@ class LoginForm extends StatelessWidget {
             height: 20,
           ),
           LoginPasswordTextField(),
-          Gap(60),
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push<void>(ForgotPasswordScreen.route());
+                    },
+                    child: Text('Przypomnij hasło'))
+                // AppleLoginScreen(),
+              ],
+            ),
+          ),
+          Gap(20),
           LoginButton(),
           SizedBox(
             height: 20,
@@ -171,22 +166,13 @@ class LoginForm extends StatelessWidget {
                   child: Text('Zarejestruj się'))
             ],
           ),
-          Text(
-            'LUB',
-            style: msstyles.mysavingNavNameStyle,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GoogleLoginScreen(),
-                AppleLoginScreen(),
-              ],
-            ),
-          )
+          // Text(
+          //   'LUB',
+          //   style: msstyles.mysavingNavNameStyle,
+          // ),
+          // SizedBox(
+          //   height: 20,
+          // ),
         ],
       ),
     );
@@ -225,8 +211,15 @@ class LoginEmailTextField extends StatelessWidget {
   }
 }
 
-class LoginPasswordTextField extends StatelessWidget {
+class LoginPasswordTextField extends StatefulWidget {
   const LoginPasswordTextField({super.key});
+
+  @override
+  _LoginPasswordTextFieldState createState() => _LoginPasswordTextFieldState();
+}
+
+class _LoginPasswordTextFieldState extends State<LoginPasswordTextField> {
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -237,19 +230,31 @@ class LoginPasswordTextField extends StatelessWidget {
           SizedBox(
             height: 50,
             child: TextFormField(
-                textAlignVertical: TextAlignVertical.bottom,
-                onChanged: (password) {
-                  context.read<LoginCubit>().passwordChanged(password);
-                },
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  prefixIcon: Icon(Icons.lock),
-                  hintText: "Hasło",
-                  hintStyle: msstyles.mysavingInputTextStyles,
-                  focusedBorder: msstyles.mysavingInputBorderStyle,
-                  enabledBorder: msstyles.mysavingInputBorderStyle,
-                )),
-          )
+              textAlignVertical: TextAlignVertical.bottom,
+              obscureText: _obscurePassword, // Hide or show password based on this flag
+              onChanged: (password) {
+                context.read<LoginCubit>().passwordChanged(password);
+              },
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                prefixIcon: Icon(Icons.lock),
+                hintText: "Hasło",
+                hintStyle: msstyles.mysavingInputTextStyles,
+                focusedBorder: msstyles.mysavingInputBorderStyle,
+                enabledBorder: msstyles.mysavingInputBorderStyle,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePassword ? UniconsLine.eye : UniconsLine.eye_slash,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ),
         ],
       );
     });

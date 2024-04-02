@@ -17,17 +17,14 @@ class AppleRepository {
 
     print(credential);
 
-    // Firebase sign-in with credential
     final firebaseCredential = OAuthProvider("apple.com").credential(
       idToken: credential.identityToken,
       accessToken: credential.authorizationCode,
     );
 
     try {
-      // Sign in with Firebase
       await _firebaseAuth.signInWithCredential(firebaseCredential);
     } catch (e) {
-      // Handle sign-in error
       print("Sign-in with Apple error: $e");
     }
   }

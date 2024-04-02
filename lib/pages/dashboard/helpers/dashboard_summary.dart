@@ -92,7 +92,9 @@ class DashboardSummaryPage extends StatelessWidget {
                             child: SizedBox(
                               width: 200,
                               height: 70,
-                              child: DashboardCurrencyPicker(),
+                              child: DashboardCurrencyPicker(
+                                onCurrencyChanged: (String) {},
+                              ),
                             ),
                           )
                         ],

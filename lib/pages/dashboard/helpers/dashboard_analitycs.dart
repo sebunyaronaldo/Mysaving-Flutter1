@@ -77,7 +77,8 @@ class DashboardAnalitycsPage extends StatelessWidget {
                 Container(
                   height: 200,
                   child: CustomPaint(
-                    painter: VerticalBarChartPainter(last7DaysExpenses),
+                    painter: VerticalBarChartPainter(
+                        last7DaysExpenses, DateTime.now(), 1, context),
                   ),
                 ),
               ],

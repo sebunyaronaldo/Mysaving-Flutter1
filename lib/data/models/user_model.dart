@@ -6,16 +6,19 @@ class User {
   final int? gender;
   final DateTime? date;
 
-  const User(
-      {required this.id,
-      this.email,
-      this.password,
-      this.name,
-      this.gender,
-      this.date});
+  const User({
+    required this.id,
+    this.email,
+    this.password,
+    this.name,
+    this.gender,
+    this.date,
+  });
 
   static const empty = User(id: '');
+
   bool get isEmpty => this == User.empty;
+
   bool get isNotEmpty => this != User.empty;
 
   List<Object?> get props => [id, email, password, name, gender, date];

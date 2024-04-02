@@ -19,12 +19,18 @@ class MySavingColors {
       DarkModeSwitch.isDarkMode ? Color(0xFFFFFFFF) : Color(0xFF202020);
   static Color get defaultBlueButton =>
       DarkModeSwitch.isDarkMode ? Color(0xFF212121) : Color(0xFF407AFF);
+  static Color get defaultBlueText =>
+      DarkModeSwitch.isDarkMode ? Color(0xFF407AFF) : Color(0xFF407AFF);
   static Color get defaultGreyText =>
       DarkModeSwitch.isDarkMode ? Color(0xFFFFFFFF) : Color(0xFF87898E);
   static Color get defaultGreen =>
-      DarkModeSwitch.isDarkMode ? Color(0xFFFFFFFF) : Color(0xFF91F2C5);
+      DarkModeSwitch.isDarkMode ? Color(0xFF26C281) : Color(0xFF26C281);
   static Color get defaultRed =>
       DarkModeSwitch.isDarkMode ? Color(0xFFFF6565) : Color(0xFFFF6565);
+  static Color get defaultPurple =>
+      DarkModeSwitch.isDarkMode ? Color(0xFF7B10D0) : Color(0xFF7B10D0);
+  static Color get defaultOrange =>
+      DarkModeSwitch.isDarkMode ? Color(0xFFFF7A00) : Color(0xFFFF7A00);
   static Color get defaultInputStroke =>
       DarkModeSwitch.isDarkMode ? Color(0xFFFFFFFF) : Color(0xFFDADADA);
   static Color get defaultLightBlueBackground =>
@@ -41,4 +47,7 @@ class MySavingColors {
       DarkModeSwitch.isDarkMode ? Color(0xFF212121) : Color(0xFFFFFFFF);
   static Color get defaultExpensesText =>
       DarkModeSwitch.isDarkMode ? Color(0xFF407AFF) : Color(0xFF407AFF);
+  static Color get settingsButtonBackground => DarkModeSwitch.isDarkMode
+      ? Color.fromARGB(40, 236, 242, 250)
+      : Color(0xFFECF2FA);
 }
